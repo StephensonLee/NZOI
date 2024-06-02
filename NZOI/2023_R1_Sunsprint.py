@@ -14,7 +14,7 @@ for i in range(m):
 
 q = deque()
 q.append(0)
-suns = [[10 ** 6] for i in range(n)]
+suns = [[10 ** 8] for i in range(n)]
 suns[0] = [0] * (t + 1)
 
 while q:
