@@ -12,6 +12,14 @@ def find_zero(r, c):
             countc += 1
     return countr, countc
 
+def find_sum():
+    for i in range(3):
+        if 0 not in board[i]:
+            return sum(board[i])
+    for i in range(3):
+        if board[0][i] != 0 and board[1][i] != 0 and board[2][i] != 0:
+            return board[0][i] + board[1][i] + board[2][i]
+    return 0
 
 def pick():
     count = 3
@@ -58,22 +66,44 @@ def check():
     return True
 
 
-def solve():
+def solve(board):
     r, c = pick()
     if r == -1:
         return True
     else:
-        for i in range(1, 10001):
-            board[r][c] = i
-            if check():
-                if solve():
-                    return True
+        countr, countc = find_zero(r, c)
+        total = find_sum()
+        if countr == 1 and total != 0:
+            board[r][c] = total - sum(board[r])
+            if board[r][c] > 0 and check() and solve(board):
+                return True
             else:
                 board[r][c] = 0
+        elif countc == 1 and total != 0:
+            board[r][c] = total - board[0][c] - board[1][c] - board[2][c]
+            if board[r][c] > 0 and check() and solve(board):
+                return True
+            else:
+                board[r][c] = 0
+        else:
+            if total != 0:
+                for i in range(1, total):
+                    board[r][c] = i
+                    if check() and solve(board):
+                        return True
+                    else:
+                        board[r][c] = 0
+            else:
+                for i in range(1, 10000):
+                    board[r][c] = i
+                    if check() and solve(board):
+                        return True
+                    else:
+                        board[r][c] = 0
     return False
 
 
-solve()
+solve(board)
 for row in board:
     for n in row:
         print(n, end=' ')

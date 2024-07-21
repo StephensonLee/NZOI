@@ -1,12 +1,32 @@
-apple = [1, 3, 2]
-capacity = [4, 3, 1, 5, 2]
-rest = sum(apple)
-capacity.sort(reverse=True)
-i = 0
-while rest > 0 and i < len(capacity):
-    if rest > capacity[i]:
-        rest -= capacity[i]
-    else:
-        rest = 0
-    i += 1
-print(i)
+board = []
+n = 4
+diff = []
+summ = []
+
+
+def check(r, c):
+    if c in board:
+        return False
+    if r - c in diff:
+        return False
+    if r + c in summ:
+        return False
+    return True
+
+
+def solve(r):
+    global diff, summ
+    if r == n:
+        print(board)
+    for c in range(n):
+        if check(r, c):
+            diff.append(r - c)
+            summ.append(r + c)
+            board.append(c)
+            solve(r + 1)
+            diff.pop()
+            summ.pop()
+            board.pop()
+
+
+solve(0)
